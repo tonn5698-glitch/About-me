@@ -1,135 +1,46 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TikTok Statistics</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Report</title>
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-body{
-    background:linear-gradient(135deg,#0f172a,#1e293b);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    color:white;
-}
-
-.card{
-    width:420px;
-    background:rgba(255,255,255,.08);
-    backdrop-filter:blur(10px);
-    border:1px solid rgba(255,255,255,.15);
-    border-radius:18px;
-    padding:28px;
-    box-shadow:0 15px 40px rgba(0,0,0,.35);
-}
-
-.title{
-    text-align:center;
-    font-size:28px;
-    font-weight:bold;
-    margin-bottom:8px;
-}
-
-.username{
-    text-align:center;
-    color:#8be9fd;
-    margin-bottom:25px;
-    word-break:break-all;
-}
-
-.info{
-    display:flex;
-    justify-content:space-between;
-    margin:12px 0;
-    padding:10px 0;
-    border-bottom:1px solid rgba(255,255,255,.1);
-}
-
-.label{
-    color:#cbd5e1;
-}
-
-.value{
-    font-weight:bold;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-    margin:22px 0;
-}
-
-.box{
-    background:rgba(255,255,255,.06);
-    border-radius:12px;
-    padding:16px;
-    text-align:center;
-}
-
-.box h2{
-    font-size:28px;
-    margin-bottom:6px;
-}
-
-.flop{
-    color:#ff6b6b;
-}
-
-.viral{
-    color:#4ade80;
-}
-
-.footer{
-    margin-top:20px;
-    text-align:center;
-    color:#94a3b8;
-    font-size:14px;
-}
-</style>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
-
 <body>
 
 <div class="card">
 
-    <div class="title">TikTok Report</div>
+    <img src="./images/PFP.png" alt="Avatar" class="avatar">
+
+    <h1>TikTok Report</h1>
 
     <div class="username">
         tiktok.com/@p/l/a###_/0/6™
     </div>
 
     <div class="info">
-        <span class="label">Số video đã đăng</span>
-        <span class="value">62</span>
+        <span>Số video đã đăng</span>
+        <span>62</span>
     </div>
 
     <div class="stats">
 
-        <div class="box">
-            <h2 class="flop">58</h2>
+        <div class="box flop-box">
+            <h2>58</h2>
             <p>Flop</p>
         </div>
 
-        <div class="box">
-            <h2 class="viral">4</h2>
+        <div class="box viral-box">
+            <h2>4</h2>
             <p>Viral (&lt;1000 view)</p>
         </div>
 
     </div>
 
     <div class="info">
-        <span class="label">View Cooldown</span>
-        <span class="value">17 days</span>
+        <span>View Cooldown</span>
+        <span>17 days</span>
     </div>
 
     <div class="footer">
