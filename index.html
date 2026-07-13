@@ -39,10 +39,12 @@
 
     </div>
 
-    <div class="info">
-        <span>View Cooldown</span>
-        <span>16 days</span>
-    </div>
+<div class="info">
+    <a href="./viewcooldown.html" class="cooldown-link">
+        View Cooldown
+    </a>
+    <span id="cooldown">...</span>
+</div>
 
     <div class="footer">
         Ngen-Kim-###
@@ -50,5 +52,21 @@
 
 </div>
 
+<script>
+const startDate = new Date("2026-07-13"); // Ngày bắt đầu
+const startDays = 16;                     // Số ngày ban đầu
+
+const today = new Date();
+
+// Chỉ lấy phần ngày, bỏ giờ để tránh lệch
+startDate.setHours(0,0,0,0);
+today.setHours(0,0,0,0);
+
+const passedDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+const remainDays = Math.max(startDays - passedDays, 0);
+
+document.getElementById("cooldown").textContent = remainDays + " days";
+</script>
+    
 </body>
 </html>
