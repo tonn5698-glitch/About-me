@@ -131,6 +131,26 @@ h1{
     text-align:justify;
 }
 
+.sample-image{
+    margin:20px 0;
+    text-align:center;
+}
+
+.sample-image img{
+    width:100%;
+    max-width:350px;
+    border-radius:12px;
+    border:2px solid rgba(255,255,255,.15);
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
+.image-caption{
+    margin-top:10px;
+    font-size:14px;
+    color:#b8c4d6;
+    font-style:italic;
+}
+
 .description ul{
     margin:15px 0 20px 25px;
 }
