@@ -11,7 +11,7 @@ body{
     align-items:center;
     background:
         linear-gradient(rgba(15,23,42,.65), rgba(30,41,59,.65)),
-        url("../images/background.png") center/cover no-repeat fixed;
+        url("../images/tenkai.webp") center/cover no-repeat fixed;
     color:white;
     font-family: "Comic Neue", cursive;   
 }
