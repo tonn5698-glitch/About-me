@@ -325,6 +325,54 @@
     color:var(--text-dim);
     white-space:nowrap;
   }
+  .repo-slider{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    padding:6px 2px 14px;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+  }
+  .repo-slider::-webkit-scrollbar{
+    height:8px;
+  }
+  .repo-slider::-webkit-scrollbar-thumb{
+    background:var(--line);
+    border-radius:4px;
+  }
+  .repo-slider::-webkit-scrollbar-track{
+    background:transparent;
+  }
+  .repo-card{
+    flex:0 0 230px;
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    border-left:2px solid var(--lane-right);
+    border-radius:8px;
+    padding:16px;
+    scroll-snap-align:start;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .repo-card .repo-time{
+    font-family:'Space Mono', monospace;
+    font-size:0.68rem;
+    color:var(--lane-up);
+    white-space:nowrap;
+  }
+  .repo-card h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:0.95rem;
+    color:var(--text);
+    word-break:break-word;
+  }
+  .repo-card p{
+    color:var(--text-dim);
+    font-size:0.8rem;
+    line-height:1.45;
+  }
   .log-item{
     display:flex;
     gap:20px;
