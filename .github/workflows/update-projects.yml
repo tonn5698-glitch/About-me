@@ -1,0 +1,38 @@
+name: Update Projects
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      GH_PROJECTS_TOKEN: ${{ secrets.GH_PROJECTS_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Update project list in dev.html
+        run: python scripts/update_projects.py
+
+      - name: Commit changes
+        run: |
+          git config user.name "tonn5698s-agent"
+          git config user.email "tonn5698s-agent@users.noreply.github.com"
+          if ! git diff --quiet; then
+            git add dev.html
+            git commit -m "chore: auto-update project list (GitHub Action)"
+            git push
+          else
+            echo "No changes to commit"
+          fi
