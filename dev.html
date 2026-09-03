@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ton — FNF Modder / Dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0e0b1a;
+    --bg-alt: #16112a;
+    --line: #2c2440;
+    --text: #f2eefa;
+    --text-dim: #a89bc4;
+    --lane-left: #c24b99;
+    --lane-down: #29c5f6;
+    --lane-up: #4ce666;
+    --lane-right: #ff5566;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Space Grotesk', sans-serif;
+    line-height:1.55;
+  }
+
+  h1,h2,h3{
+    font-family:'Lilita One', cursive;
+    font-weight:400;
+    letter-spacing:0.02em;
+    line-height:1.05;
+  }
+
+  .mono{
+    font-family:'Space Mono', monospace;
+  }
+
+  a{color:inherit;}
+
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* ---------- TOP BAR ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:10;
+    background:rgba(14,11,26,0.88);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:56px;
+  }
+  .topbar .brand{
+    font-family:'Lilita One', cursive;
+    font-size:1.2rem;
+  }
+  .topbar nav{
+    display:flex; gap:20px;
+    font-size:0.85rem;
+  }
+  .topbar nav a{
+    text-decoration:none;
+    color:var(--text-dim);
+    transition:color .15s ease;
+  }
+  .topbar nav a:hover{color:var(--text);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:72px 0 56px;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .lanes{
+    position:absolute;
+    top:0; right:24px; bottom:0;
+    width:min(38vw, 260px);
+    display:flex;
+    gap:14px;
+    pointer-events:none;
+    opacity:0.55;
+  }
+  .lane{
+    flex:1;
+    background:linear-gradient(to bottom, transparent, currentColor 0%, transparent 85%);
+    opacity:0.08;
+    border-left:1px solid currentColor;
+    border-right:1px solid currentColor;
+    position:relative;
+  }
+  .lane:nth-child(1){color:var(--lane-left);}
+  .lane:nth-child(2){color:var(--lane-down);}
+  .lane:nth-child(3){color:var(--lane-up);}
+  .lane:nth-child(4){color:var(--lane-right);}
+
+  .note{
+    position:absolute;
+    left:50%;
+    width:22px; height:22px;
+    background:currentColor;
+    transform:translateX(-50%) rotate(45deg);
+    border-radius:4px;
+    opacity:0;
+    animation:drop 2.6s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  @keyframes drop{
+    0%{ top:-40px; opacity:0; }
+    12%{ opacity:1; }
+    92%{ opacity:1; }
+    100%{ top:calc(100% - 40px); opacity:0.9; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .note{ animation:none; opacity:0.6; top:40%; }
+  }
+
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 4.4rem);
+    max-width:11ch;
+  }
+  .hero .role{
+    font-family:'Space Mono', monospace;
+    color:var(--text-dim);
+    font-size:0.95rem;
+    margin-top:10px;
+  }
+  .hero p.bio{
+    max-width:52ch;
+    margin-top:22px;
+    color:var(--text-dim);
+    font-size:1.02rem;
+  }
+  .chips{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-top:26px;
+  }
+  .chip{
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    padding:5px 10px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    color:var(--text-dim);
+  }
+
+  /* ---------- SECTION HEADS ---------- */
+  section{
+    padding:56px 0;
+    border-bottom:1px solid var(--line);
+  }
+  section:last-of-type{border-bottom:none;}
+  .sec-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:34px;
+    gap:16px;
+  }
+  .sec-head h2{
+    font-size:1.7rem;
+  }
+  .sec-head .count{
+    font-family:'Space Mono', monospace;
+    color:var(--text-dim);
+    font-size:0.8rem;
+    white-space:nowrap;
+  }
+
+  /* ---------- PROJECTS TIMELINE ---------- */
+  .timeline{
+    position:relative;
+    padding-left:74px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:58px; top:6px; bottom:6px;
+    width:1px;
+    background:var(--line);
+  }
+  .t-item{
+    position:relative;
+    padding-bottom:34px;
+  }
+  .t-item:last-child{padding-bottom:0;}
+  .t-time{
+    position:absolute;
+    left:-74px; top:2px;
+    width:56px;
+    text-align:right;
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    color:var(--text-dim);
+  }
+  .t-dot{
+    position:absolute;
+    left:-20.5px; top:5px;
+    width:11px; height:11px;
+    background:var(--dot);
+    transform:rotate(45deg);
+    border-radius:2px;
+  }
+  .t-item:nth-child(4n+1){--dot:var(--lane-left);}
+  .t-item:nth-child(4n+2){--dot:var(--lane-down);}
+  .t-item:nth-child(4n+3){--dot:var(--lane-up);}
+  .t-item:nth-child(4n+4){--dot:var(--lane-right);}
+
+  .t-card{
+    border-left:2px solid var(--dot);
+    padding:2px 0 2px 16px;
+  }
+  .t-card h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:1.08rem;
+  }
+  .t-card .status{
+    font-family:'Space Mono', monospace;
+    font-size:0.7rem;
+    color:var(--dot);
+    margin-left:10px;
+  }
+  .t-card p{
+    color:var(--text-dim);
+    font-size:0.92rem;
+    margin-top:6px;
+    max-width:56ch;
+  }
+  .t-tags{
+    display:flex; gap:6px; flex-wrap:wrap;
+    margin-top:10px;
+  }
+  .t-tags span{
+    font-family:'Space Mono', monospace;
+    font-size:0.7rem;
+    color:var(--text-dim);
+    border:1px solid var(--line);
+    padding:2px 7px;
+    border-radius:3px;
+  }
+  .t-card a.repo{
+    display:inline-block;
+    margin-top:10px;
+    font-size:0.82rem;
+    color:var(--dot);
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+  }
+  .t-card a.repo:hover{border-bottom-color:var(--dot);}
+
+  /* ---------- MODS GRID ---------- */
+  .mods-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  @media (max-width:640px){
+    .mods-grid{grid-template-columns:1fr;}
+  }
+  .mod-card{
+    background:var(--bg);
+    padding:22px;
+  }
+  .mod-card .engine{
+    font-family:'Space Mono', monospace;
+    font-size:0.7rem;
+    color:var(--lane-down);
+  }
+  .mod-card h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:1.02rem;
+    margin-top:6px;
+  }
+  .mod-card p{
+    color:var(--text-dim);
+    font-size:0.9rem;
+    margin-top:8px;
+  }
+
+  /* ---------- DEVLOG / SOCIAL ---------- */
+  .log-list{
+    display:flex;
+    flex-direction:column;
+  }
+  .log-item{
+    display:flex;
+    gap:20px;
+    padding:16px 0;
+    border-top:1px solid var(--line);
+  }
+  .log-item:first-child{border-top:none;}
+  .log-time{
+    font-family:'Space Mono', monospace;
+    font-size:0.75rem;
+    color:var(--text-dim);
+    white-space:nowrap;
+    padding-top:2px;
+    width:90px;
+    flex-shrink:0;
+  }
+  .log-text p{
+    font-size:0.94rem;
+  }
+  .log-text .platform{
+    font-family:'Space Mono', monospace;
+    font-size:0.7rem;
+    color:var(--lane-up);
+    display:block;
+    margin-top:6px;
+  }
+
+  .demo-note{
+    font-family:'Space Mono', monospace;
+    font-size:0.75rem;
+    color:var(--text-dim);
+    border:1px dashed var(--line);
+    padding:10px 14px;
+    border-radius:4px;
+    margin-bottom:28px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:36px 0 60px;
+  }
+  footer .wrap{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+  }
+  .footer-links{
+    display:flex; gap:18px;
+  }
+  .footer-links a{
+    text-decoration:none;
+    font-size:0.88rem;
+    color:var(--text-dim);
+    transition:color .15s ease;
+  }
+  .footer-links a:hover{color:var(--text);}
+  footer .copy{
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    color:var(--text-dim);
+  }
+
+  .back-link{
+    display:inline-block;
+    margin-top:8px;
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    color:var(--text-dim);
+    text-decoration:none;
+  }
+  .back-link:hover{color:var(--text);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div><a class="back-link" href="./index.html">← Home</a></div>
+    <div class="brand">Ton</div>
+    <nav>
+      <a href="#projects">Projects</a>
+      <a href="#mods">Mod work</a>
+      <a href="#log">Devlog</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="lanes" aria-hidden="true">
+    <div class="lane"><div class="note" style="animation-delay:0.1s"></div></div>
+    <div class="lane"><div class="note" style="animation-delay:0.6s"></div></div>
+    <div class="lane"><div class="note" style="animation-delay:1.1s"></div></div>
+    <div class="lane"><div class="note" style="animation-delay:0.35s"></div></div>
+  </div>
+  <div class="wrap">
+    <h1>Ton</h1>
+    <div class="role">FNF modder — Psych Engine / Codename Engine</div>
+    <p class="bio">Xây dựng gameplay system, event chart và tool cho Friday Night Funkin'. Ngoài ra tự viết loạt tool Python một-file chạy trên Pydroid 3 để xử lý media, chart và asset.</p>
+    <div class="chips">
+      <span class="chip">Lua</span>
+      <span class="chip">HScript</span>
+      <span class="chip">Python</span>
+      <span class="chip">ffmpeg</span>
+      <span class="chip">Psych Engine</span>
+      <span class="chip">Codename Engine</span>
+    </div>
+  </div>
+</header>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>GitHub Projects</h2>
+      <div class="count mono">5 repos</div>
+    </div>
+
+    <div class="timeline">
+
+      <div class="t-item">
+        <div class="t-time">0:00.000</div>
+        <div class="t-dot"></div>
+        <div class="t-card">
+          <h3>Psych Engine Android 1.0.1 <span class="status">IN PROGRESS</span></h3>
+          <p>Bản build Android tùy chỉnh của Psych Engine. Đang làm loading screen riêng cho từng mod (không sửa source engine) và fix race condition khi load asset — engine chỉ chuyển sang PlayState sau khi asset load xong hoàn toàn.</p>
+          <div class="t-tags"><span>Haxe</span><span>Android</span><span>Psych Engine</span></div>
+          <a class="repo" href="#">github.com/ton/psych-engine-android →</a>
+        </div>
+      </div>
+
+      <div class="t-item">
+        <div class="t-time">0:08.000</div>
+        <div class="t-dot"></div>
+        <div class="t-card">
+          <h3>FNF Sprite → Video Exporter <span class="status">RELEASED</span></h3>
+          <p>Đọc Sparrow XML atlas, dựng lại chuỗi animation FNF theo frame offset/indices, xuất MP4 hoặc WebM qua ffmpeg.</p>
+          <div class="t-tags"><span>Python</span><span>ffmpeg</span><span>Pydroid 3</span></div>
+          <a class="repo" href="#">github.com/ton/fnf-sprite-to-video →</a>
+        </div>
+      </div>
+
+      <div class="t-item">
+        <div class="t-time">0:16.000</div>
+        <div class="t-dot"></div>
+        <div class="t-card">
+          <h3>Pixiv Downloader <span class="status">RELEASED</span></h3>
+          <p>Tải ảnh tĩnh và ugoira từ Pixiv qua AJAX API, ghép GIF bằng ffmpeg two-pass palette generation, đăng nhập qua PHPSESSID.</p>
+          <div class="t-tags"><span>Python</span><span>ffmpeg</span><span>tkinter</span></div>
+          <a class="repo" href="#">github.com/ton/pixiv-downloader →</a>
+        </div>
+      </div>
+
+      <div class="t-item">
+        <div class="t-time">0:24.000</div>
+        <div class="t-dot"></div>
+        <div class="t-card">
+          <h3>Chart Format Converter <span class="status">RELEASED</span></h3>
+          <p>Chuyển strumLines sang JSON chart chuẩn Psych Engine, kèm GUI tkinter để cấu hình metadata bài hát và note mapping.</p>
+          <div class="t-tags"><span>Python</span><span>tkinter</span></div>
+          <a class="repo" href="#">github.com/ton/chart-converter →</a>
+        </div>
+      </div>
+
+      <div class="t-item">
+        <div class="t-time">0:32.000</div>
+        <div class="t-dot"></div>
+        <div class="t-card">
+          <h3>Camera Debugger <span class="status">RELEASED</span></h3>
+          <p>Tool Lua debug camera cho Psych Engine: nút focus theo nhân vật, chỉnh offset, crosshair theo dõi camFollow theo thời gian thực, hiện toạ độ.</p>
+          <div class="t-tags"><span>Lua</span><span>Psych Engine</span></div>
+          <a class="repo" href="#">github.com/ton/psych-camera-debugger →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="mods">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Mod &amp; Engine Work</h2>
+      <div class="count mono">4 entries</div>
+    </div>
+
+    <div class="mods-grid">
+      <div class="mod-card">
+        <div class="engine">CODENAME ENGINE</div>
+        <h3>Lyrics / Subtitle System</h3>
+        <p>Convert script lời bài hát từ Lua (Psych Engine) sang HScript, xử lý khác biệt API: FlxAxes, FlxTextAlign, textField.textWidth.</p>
+      </div>
+      <div class="mod-card">
+        <div class="engine">PSYCH ENGINE</div>
+        <h3>Stage Format Converter</h3>
+        <p>Chuyển scene.json tuỳ chỉnh sang Lua stage script: xếp lớp sprite, chuyển pha theo event trong chart.</p>
+      </div>
+      <div class="mod-card">
+        <div class="engine">CUTSCENE / VSLICE</div>
+        <h3>Cutscene Timeline Analysis</h3>
+        <p>Phân tích timeline events.json dạng VSlice/custom để dựng lại cutscene trong engine.</p>
+      </div>
+      <div class="mod-card">
+        <div class="engine">PSYCH ENGINE</div>
+        <h3>SpriteStreet Asset Converter</h3>
+        <p>Chuyển asset SpriteStreet sang định dạng FNF: Sparrow XML + character.json.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="log">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Devlog</h2>
+      <div class="count mono">placeholder</div>
+    </div>
+
+    <div class="demo-note">Đây là dữ liệu mẫu — thay bằng bài đăng thật hoặc nối API mạng xã hội của bạn.</div>
+
+    <div class="log-list">
+      <div class="log-item">
+        <div class="log-time mono">2 ngày trước</div>
+        <div class="log-text">
+          <p>Fix xong race condition khi load asset — không còn màn hình đen lúc vào PlayState nữa.</p>
+          <span class="platform">#PsychEngineAndroid</span>
+        </div>
+      </div>
+      <div class="log-item">
+        <div class="log-time mono">1 tuần trước</div>
+        <div class="log-text">
+          <p>Đang thử nghiệm loading screen riêng cho từng mod, không cần đụng vào source engine.</p>
+          <span class="platform">#PsychEngine</span>
+        </div>
+      </div>
+      <div class="log-item">
+        <div class="log-time mono">2 tuần trước</div>
+        <div class="log-text">
+          <p>Convert xong lyrics script từ Lua sang HScript cho Codename Engine.</p>
+          <span class="platform">#CodenameEngine</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-links">
+      <a href="#">GitHub</a>
+      <a href="#">itch.io</a>
+      <a href="#">Discord</a>
+    </div>
+    <div class="copy">build — 2026</div>
+  </div>
+</footer>
+
+</body>
+</html>
