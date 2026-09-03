@@ -55,11 +55,19 @@ def fmt_time(iso):
 
 def repo_card(name, pushed, desc):
     desc_esc = (desc or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    repo_url = f"https://github.com/{USER}/{name}"
+    og_url = f"https://opengraph.githubassets.com/1/{USER}/{name}"
+    has_bg = desc is not None and desc.strip() != ""
+    bg_class = " has-bg" if has_bg else ""
+    link = f"<a class=\"repo-link\" href=\"{repo_url}\" target=\"_blank\" rel=\"noopener\">read more →</a>"
     return (
-        "<div class=\"repo-card\">\n"
+        f"<div class=\"repo-card{bg_class}\""
+        + (f" style=\"background-image:url('{og_url}')\"" if has_bg else "")
+        + ">\n"
         "        <div class=\"repo-time mono\">" + fmt_time(pushed) + "</div>\n"
         "        <h3>" + name + "</h3>\n"
-        "        <p>" + desc_esc + "</p>\n"
+        "        <p>" + (desc_esc if has_bg else "No description.") + "</p>\n"
+        "        " + link + "\n"
         "      </div>"
     )
 

@@ -354,6 +354,19 @@
     display:flex;
     flex-direction:column;
     gap:8px;
+    position:relative;
+    overflow:hidden;
+    background-size:cover;
+    background-position:center;
+  }
+  .repo-card.has-bg::before{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(14,11,26,.62), rgba(14,11,26,.9));
+    z-index:0;
+  }
+  .repo-card.has-bg > *{
+    position:relative; z-index:1;
   }
   .repo-card .repo-time{
     font-family:'Space Mono', monospace;
@@ -373,6 +386,16 @@
     font-size:0.8rem;
     line-height:1.45;
   }
+  .repo-card .repo-link{
+    margin-top:auto;
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    color:var(--lane-right);
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+    align-self:flex-start;
+  }
+  .repo-card .repo-link:hover{border-bottom-color:var(--lane-right);}
   .log-item{
     display:flex;
     gap:20px;
