@@ -7,7 +7,7 @@ import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 
-USER = "tonn5698-gitch"
+USER = "tonn5698-glitch"
 TOKEN = os.environ.get("GH_PROJECTS_TOKEN") or os.environ.get("GITHUB_TOKEN")
 
 
