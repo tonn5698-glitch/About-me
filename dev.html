@@ -128,6 +128,15 @@
     font-size:clamp(2.6rem, 7vw, 4.4rem);
     max-width:11ch;
   }
+  .hero .avatar{
+    width:96px; height:96px;
+    object-fit:cover;
+    border-radius:50%;
+    border:3px solid var(--lane-down);
+    box-shadow:0 0 24px rgba(41,197,246,.4);
+    display:block;
+    margin-bottom:22px;
+  }
   .hero .role{
     font-family:'Space Mono', monospace;
     color:var(--text-dim);
@@ -392,6 +401,7 @@
     <div class="lane"><div class="note" style="animation-delay:0.35s"></div></div>
   </div>
   <div class="wrap">
+    <img class="avatar" src="./images/avatar-dev.png" alt="Ton">
     <h1>Ton</h1>
     <div class="role">FNF modder — Psych Engine / Codename Engine</div>
     <p class="bio">Xây dựng gameplay system, event chart và tool cho Friday Night Funkin'. Ngoài ra tự viết loạt tool Python một-file chạy trên Pydroid 3 để xử lý media, chart và asset.</p>
